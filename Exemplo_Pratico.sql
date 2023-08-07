@@ -116,5 +116,35 @@ SELECT CONCAT(primeiro_nome, ' ', ultimo_nome) AS nome_completo FROM funcionario
 --Para exibir as datas de vendas no formato "dd/mm/aaaa" a partir da tabela vendas:
 SELECT FORMAT(data_venda, 'dd/MM/yyyy') AS data_formatada FROM vendas;
 
+-- LENGTH() - Tamanho de Strings:
+-- Para obter o tamanho dos nomes dos produtos da tabela produtos:
+SELECT Nome, LENGTH(Nome) AS Tamanho_Nome FROM Produtos;
+
+-- SUBSTRING() - Substring de Strings:
+-- Para extrair parte do nome de um cliente da tabela clientes:
+SELECT Nome, SUBSTRING(Nome, 1, 3) AS Nome_Reduzido FROM Clientes;
+
+-- COALESCE() - Tratamento de Valores Nulos:
+-- Para exibir o nome do aluno e sua idade, tratando valores nulos na idade:
+SELECT Nome, COALESCE(Idade, 'Idade não disponível') AS Idade FROM Alunos;
+
+-- LEFT() e RIGHT() - Partes da String:
+-- Para obter os primeiros e últimos caracteres do nome do funcionário:
+SELECT Primeiro_Nome, LEFT(Primeiro_Nome, 1) AS Primeira_Letra, RIGHT(Ultimo_Nome, 3) AS Ultimas_Tres_Letras FROM Funcionarios;
+
+-- DATEADD() - Adição de Intervalos de Tempo:
+-- Para adicionar 7 dias à data de venda da tabela vendas:
+SELECT Data_Venda, DATEADD(day, 7, Data_Venda) AS Data_Venda_Modificada FROM Vendas;
+
+-- DATEDIFF() - Diferença entre Datas:
+-- Para calcular a diferença em dias entre duas datas da tabela vendas:
+SELECT Data_Venda, DATEDIFF(day, Data_Venda, GETDATE()) AS Dias_Passados FROM Vendas;
+
+-- GROUP BY e HAVING - Agrupamento e Filtros em Grupos:
+-- Para calcular a média das notas dos alunos por idade, apenas para idades maiores que 20:
+SELECT Idade, AVG(Nota) AS Media_Notas FROM Alunos
+JOIN Notas ON Alunos.IdAluno = Notas.IdAluno
+GROUP BY Idade
+HAVING Idade > 20;
 
 
