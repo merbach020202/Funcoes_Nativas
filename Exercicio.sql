@@ -39,6 +39,19 @@
 
 --e. Liste o nome do aluno e o nome do curso em que eles obtiveram a nota mais alta.
 
+--f. Liste o nome dos alunos que obtiveram uma nota superior a 8.0 em qualquer curso.
+
+--g. Liste o nome dos alunos que não possuem notas registradas.
+
+--h. Liste o nome do curso e o número total de alunos inscritos em cada curso.
+
+--i. Liste os cursos e a média das notas em cada curso, considerando apenas os cursos com pelo menos 2 alunos.
+
+--j. Liste os alunos e seus respectivos cursos em ordem alfabética.
+
+CREATE DATABASE Gerenciamento_DE_Alunos
+
+
 -- Tabela de Alunos
 CREATE TABLE Alunos (
     IdAluno INT PRIMARY KEY,
@@ -109,3 +122,40 @@ FROM Alunos
 JOIN Notas ON Alunos.IdAluno = Notas.IdAluno
 JOIN Cursos ON Notas.IdCurso = Cursos.IdCurso
 GROUP BY Alunos.Nome, Cursos.NomeCurso;
+
+--f. Liste o nome dos alunos que obtiveram uma nota superior a 8.0 em qualquer curso.
+
+SELECT Alunos.Nome, Notas.Nota, Cursos.NomeCurso
+FROM Alunos
+JOIN Notas ON Alunos.IdAluno = Notas.IdAluno
+JOIN Cursos ON Notas.IdCurso = Cursos.IdCurso
+WHERE Notas.Nota > 8.0;
+
+--g. Liste o nome dos alunos que não possuem notas registradas.
+SELECT Alunos.Nome
+FROM Alunos
+LEFT JOIN Notas ON Alunos.IdAluno = Notas.IdAluno
+WHERE Notas.IdNota IS NULL;
+
+--h. Liste o nome do curso e o número total de alunos inscritos em cada curso.
+SELECT Cursos.NomeCurso, COUNT(Alunos.IdAluno) AS TotalAlunos
+FROM Cursos
+LEFT JOIN Notas ON Cursos.IdCurso = Notas.IdCurso
+LEFT JOIN Alunos ON Notas.IdAluno = Alunos.IdAluno
+GROUP BY Cursos.NomeCurso;
+
+--i. Liste os cursos e a média das notas em cada curso, considerando apenas os cursos com pelo menos 2 alunos.
+SELECT Cursos.NomeCurso, AVG(Notas.Nota) AS MediaNota
+FROM Cursos
+JOIN Notas ON Cursos.IdCurso = Notas.IdCurso
+GROUP BY Cursos.NomeCurso
+HAVING COUNT(Notas.IdAluno) >= 2;
+
+--j. Liste os alunos e seus respectivos cursos em ordem alfabética.
+SELECT Alunos.Nome, STRING_AGG(Cursos.NomeCurso, ', ' ORDER BY Cursos.NomeCurso ASC) AS Cursos
+FROM Alunos
+LEFT JOIN Notas ON Alunos.IdAluno = Notas.IdAluno
+LEFT JOIN Cursos ON Notas.IdCurso = Cursos.IdCurso
+GROUP BY Alunos.Nome;
+
+

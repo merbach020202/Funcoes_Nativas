@@ -118,7 +118,7 @@ SELECT FORMAT(data_venda, 'dd/MM/yyyy') AS data_formatada FROM vendas;
 
 -- LENGTH() - Tamanho de Strings:
 -- Para obter o tamanho dos nomes dos produtos da tabela produtos:
-SELECT Nome, LENGTH(Nome) AS Tamanho_Nome FROM Produtos;
+SELECT Nome, LEN(Nome) AS Tamanho_Nome FROM Produtos;
 
 -- SUBSTRING() - Substring de Strings:
 -- Para extrair parte do nome de um cliente da tabela clientes:
